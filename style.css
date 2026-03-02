@@ -1,0 +1,27 @@
+html {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: rgb(15, 23, 43);
+}
+
+/* Boxes div container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Boxes divs */
+.boxes {
+    color: rgb(15, 23, 43);
+    border: 5px groove rgb(69, 85, 108);
+    width: 130px;
+    height: 130px;
+}
