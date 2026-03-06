@@ -6,6 +6,7 @@ body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+/* Text header */
 h1 {
     text-align: center;
     color: rgb(15, 23, 43);
@@ -18,10 +19,19 @@ h1 {
     align-items: center;
 }
 
-/* Boxes divs */
-/* .game-board {
+/* Game boxes */
+.boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 90px;
     color: rgb(15, 23, 43);
     border: 5px groove rgb(69, 85, 108);
     width: 130px;
     height: 130px;
-} */
+}
+
+/* Game boxes hover style */
+.boxes:hover {
+    background-color: rgb(226, 232, 240);
+}

@@ -2,10 +2,21 @@
 const theGame = (() => {
 
     function gameBoard() {
-        const board = ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const board = ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'];
+            const boxes = document.querySelectorAll('.boxes');
+
+            // Display array elements inside div boxes
+            board.forEach((box, index) => {
+                boxes[index].innerText = box;
+            });
+        });
+
         // Object containing board array
         return { board };
     }
+
 
     function players() {
         const gamePlayers = ['Player One', 'Player Two'];
@@ -13,13 +24,15 @@ const theGame = (() => {
         return { gamePlayers };
     }
 
-    // Destructure the function return values
+    // Destructure function return values
     const { board } = gameBoard();
     const { gamePlayers } = players();
 
-    // Return object that includes the game board and the game players
+    // Return game objects
     return { board, gamePlayers };
-})();
+
+})(); // IIFE call
 
 console.log(theGame.board);
 console.log(theGame.gamePlayers);
+
