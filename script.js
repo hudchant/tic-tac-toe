@@ -1,38 +1,60 @@
 // Gameboard objects
 const theGame = (() => {
 
-    function gameBoard() {
+    // An empty array of length 9 to start each game
+    const board = Array(9).fill(null);
 
+    // Player name/move object
+    function player(name, move) {
+        return { name, move };
+    }
+
+    // Create player instances
+    const playerOne = player('Player 1', 'X');
+    const playerTwo = player('Player 2', 'O');
+
+    // Players object
+    const players = { playerOne, playerTwo };
+
+    // Set current player to player one at the start of each game
+    let currentPlayer = players.playerOne;
+
+    function gameBoard() {
         document.addEventListener('DOMContentLoaded', function () {
-            const board = ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'];
+
+            // Reference to gameboard box divs
             const boxes = document.querySelectorAll('.boxes');
 
-            // Display array elements inside div boxes
-            board.forEach((box, index) => {
-                boxes[index].innerText = box;
+            // Display array elements 
+            boxes.forEach((box, index) => {
+                box.addEventListener('click', () => {
+                    // If box already has text, exit current iteration of the loop
+                    if (board[index] !== null) return;
+
+                    // Upon click, assign current player's move to the board array
+                    board[index] = currentPlayer.move;
+                    // Fill the box with the current player's move: X or O
+                    box.innerHTML = currentPlayer.move;
+
+                    // Switch current player after their turn is taken
+                    if (currentPlayer === players.playerOne) {
+                        currentPlayer = players.playerTwo;
+                    } else {
+                        currentPlayer = players.playerOne;
+                    }
+                });
             });
         });
-
-        // Object containing board array
-        return { board };
     }
 
+    // Call gameBoard function to initiate event listeners
+    gameBoard();
 
-    function players() {
-        const gamePlayers = ['Player One', 'Player Two'];
-        // Object containing gamePlayers array
-        return { gamePlayers };
-    }
+    // Return game/player objects
+    return { board, players };
 
-    // Destructure function return values
-    const { board } = gameBoard();
-    const { gamePlayers } = players();
-
-    // Return game objects
-    return { board, gamePlayers };
 
 })(); // IIFE call
 
-console.log(theGame.board);
-console.log(theGame.gamePlayers);
 
+console.log(theGame.board);
