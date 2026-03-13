@@ -4,6 +4,9 @@ const theGame = (() => {
     // An empty array of length 9 to start each game
     const board = Array(9).fill(null);
 
+    // Variable to end the game after a player has won
+    let gameOver = false;
+
     // Player name/move object
     function player(name, move) {
         return { name, move };
@@ -21,6 +24,8 @@ const theGame = (() => {
 
     // Function to determine if a player has won
     function declareWinner(currentPlayer) {
+        // If a player has won, exit the function
+        if (gameOver) return;
 
         // Set the current state of winner
         let winner = false;
@@ -56,46 +61,53 @@ const theGame = (() => {
     }
 
     // Function to initiate the game
-        function gameBoard() {
-            document.addEventListener('DOMContentLoaded', function () {
+    function gameBoard() {
+        // If a player has won, exit the function
+        if (gameOver) return;
 
-                // Reference to gameboard box divs
-                const boxes = document.querySelectorAll('.boxes');
+        document.addEventListener('DOMContentLoaded', function () {
 
-                // Display array elements 
-                boxes.forEach((box, index) => {
-                    box.addEventListener('click', () => {
-                        // If box already has text, exit current iteration of the loop
-                        if (board[index] !== null) return;
+            // Reference to gameboard box divs
+            const boxes = document.querySelectorAll('.boxes');
 
-                        // Upon click, assign current player's move to the board array
-                        board[index] = currentPlayer.move;
-                        // Fill the box with the current player's move: X or O
-                        box.innerHTML = currentPlayer.move;
+            // Display array elements 
+            boxes.forEach((box, index) => {
+                box.addEventListener('click', () => {
+                    // If a player has won, exit the function
+                    if (gameOver) return;
+
+                    // If box already has text, exit current iteration of the loop
+                    if (board[index] !== null) return;
+
+                    // Upon click, assign current player's move to the board array
+                    board[index] = currentPlayer.move;
+                    // Fill the box with the current player's move: X or O
+                    box.innerHTML = currentPlayer.move;
 
 
-                        let isWinner = declareWinner(currentPlayer);
+                    let isWinner = declareWinner(currentPlayer);
 
-                        // If players wins, display winner message and exit loop
-                        if (isWinner) {
-                            let winner = document.querySelector('.winner');
-                            let winMessage = document.createElement('div');
-                            winMessage.classList.add('.winMessage');
-                            winMessage.innerHTML = `${currentPlayer.name} wins!`;
-                            winner.appendChild(winMessage);
-                            return;
-                        }
+                    // If players wins, display winner message and exit loop
+                    if (isWinner) {
+                        let winner = document.querySelector('.winner');
+                        let winMessage = document.createElement('div');
+                        winMessage.classList.add('.winMessage');
+                        winMessage.innerHTML = `${currentPlayer.name} wins!`;
+                        winner.appendChild(winMessage);
+                        gameOver = true;
+                        return;
+                    }
 
-                        // Switch current player after their turn is taken
-                        if (currentPlayer === players.playerOne) {
-                            currentPlayer = players.playerTwo;
-                        } else {
-                            currentPlayer = players.playerOne;
-                        }
-                    });
+                    // Switch current player after their turn is taken
+                    if (currentPlayer === players.playerOne) {
+                        currentPlayer = players.playerTwo;
+                    } else {
+                        currentPlayer = players.playerOne;
+                    }
                 });
             });
-        }
+        });
+    }
 
     // Call gameBoard function to initiate event listeners
     gameBoard();
