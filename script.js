@@ -19,33 +19,83 @@ const theGame = (() => {
     // Set current player to player one at the start of each game
     let currentPlayer = players.playerOne;
 
-    function gameBoard() {
-        document.addEventListener('DOMContentLoaded', function () {
+    // Function to determine if a player has won
+    function declareWinner(currentPlayer) {
 
-            // Reference to gameboard box divs
-            const boxes = document.querySelectorAll('.boxes');
+        // Set the current state of winner
+        let winner = false;
 
-            // Display array elements 
-            boxes.forEach((box, index) => {
-                box.addEventListener('click', () => {
-                    // If box already has text, exit current iteration of the loop
-                    if (board[index] !== null) return;
+        // Array index sequences that will result in a win
+        const winningLines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
 
-                    // Upon click, assign current player's move to the board array
-                    board[index] = currentPlayer.move;
-                    // Fill the box with the current player's move: X or O
-                    box.innerHTML = currentPlayer.move;
+        // Loop through the gameboard array
+        for (let i = 0; i < winningLines.length; i++) {
+            const [a, b, c] = winningLines[i];
 
-                    // Switch current player after their turn is taken
-                    if (currentPlayer === players.playerOne) {
-                        currentPlayer = players.playerTwo;
-                    } else {
-                        currentPlayer = players.playerOne;
-                    }
+            // Check to see if a player has marked three boxes in a row vertically, horizontally, or diagonally
+            // If they have, set the winner variable to true and break out of the loop
+            if (board[a] === currentPlayer.move
+                && board[b] === currentPlayer.move
+                && board[c] === currentPlayer.move) {
+                winner = true;
+                break;
+            }
+        }
+
+        // If winner, return currentPlayer object. Otherwise, return false
+        return winner ? currentPlayer : false;
+    }
+
+    // Function to initiate the game
+        function gameBoard() {
+            document.addEventListener('DOMContentLoaded', function () {
+
+                // Reference to gameboard box divs
+                const boxes = document.querySelectorAll('.boxes');
+
+                // Display array elements 
+                boxes.forEach((box, index) => {
+                    box.addEventListener('click', () => {
+                        // If box already has text, exit current iteration of the loop
+                        if (board[index] !== null) return;
+
+                        // Upon click, assign current player's move to the board array
+                        board[index] = currentPlayer.move;
+                        // Fill the box with the current player's move: X or O
+                        box.innerHTML = currentPlayer.move;
+
+
+                        let isWinner = declareWinner(currentPlayer);
+
+                        // If players wins, display winner message and exit loop
+                        if (isWinner) {
+                            let winner = document.querySelector('.winner');
+                            let winMessage = document.createElement('div');
+                            winMessage.classList.add('.winMessage');
+                            winMessage.innerHTML = `${currentPlayer.name} wins!`;
+                            winner.appendChild(winMessage);
+                            return;
+                        }
+
+                        // Switch current player after their turn is taken
+                        if (currentPlayer === players.playerOne) {
+                            currentPlayer = players.playerTwo;
+                        } else {
+                            currentPlayer = players.playerOne;
+                        }
+                    });
                 });
             });
-        });
-    }
+        }
 
     // Call gameBoard function to initiate event listeners
     gameBoard();
@@ -53,8 +103,4 @@ const theGame = (() => {
     // Return game/player objects
     return { board, players };
 
-
 })(); // IIFE call
-
-
-console.log(theGame.board);
