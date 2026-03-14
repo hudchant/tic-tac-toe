@@ -53,7 +53,7 @@ const theGame = (() => {
                 && board[c] === currentPlayer.move) {
                 winner = true;
                 break;
-            }
+            } 
         }
 
         // If winner, return currentPlayer object. Otherwise, return false
@@ -84,16 +84,31 @@ const theGame = (() => {
                     // Fill the box with the current player's move: X or O
                     box.innerHTML = currentPlayer.move;
 
-
+                    // declareWinner function call for when a player object is returned, indicating there is a winner
                     let isWinner = declareWinner(currentPlayer);
+                    // Reference to results div
+                    const results = document.querySelector('.results'); 
 
                     // If players wins, display winner message and exit loop
                     if (isWinner) {
-                        let winner = document.querySelector('.winner');
                         let winMessage = document.createElement('div');
-                        winMessage.classList.add('.winMessage');
+                        winMessage.classList.add('winMessage');
                         winMessage.innerHTML = `${currentPlayer.name} wins!`;
-                        winner.appendChild(winMessage);
+                        winMessage.style.color = 'rgb(5,190,17)';
+                        results.innerHTML = '';
+                        results.appendChild(winMessage);
+                        gameOver = true;
+                        return;
+                    }
+
+                    // If no player wins, declare the current game a draw
+                    if (board.every(box => box !== null) && !isWinner) {
+                        let drawMessage = document.createElement('div');
+                        drawMessage.classList.add('drawMessage');
+                        drawMessage.innerHTML = `It's a draw.`;
+                        drawMessage.style.color = 'rgb(233,7,15)';
+                        results.innerHTML = '';
+                        results.appendChild(drawMessage);
                         gameOver = true;
                         return;
                     }

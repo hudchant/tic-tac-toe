@@ -10,8 +10,8 @@
 
 <body>
     <h1>Tic-Tac-Toe</h1>
-    <!-- Main container -->
-    <div class="container">
+    <!-- Boxes main container -->
+    <div class="containerOne">
         <!-- Divs to hold X's and O's -->
         <div>
             <div class="boxes" id="box1"></div>
@@ -29,8 +29,17 @@
             <div class="boxes" id="box9"></div>
         </div>
     </div>
-    <!-- Container for message to be displayed when a player wins the game -->
-    <div class="winner"></div>
+    <!-- Buttons and game results container -->
+    <div class="containerTwo">
+        <div class="buttons">
+            <!-- Click to start game -->
+            <button class="start">START GAME</button> 
+            <!-- Click to restart game -->
+            <button class='restart'>RESTART GAME</button> 
+        </div>
+        <!-- Message to be displayed when a player wins the game or when there is no winner due to a draw -->
+        <div class="results"></div>
+    </div>
     <script src="./script.js"></script>
 </body>
 

@@ -11,13 +11,20 @@ h1 {
     text-align: center;
     color: rgb(0, 0, 0);
     margin: 12px 0px;
+    padding: 12px 0px;
 }
 
 /* Boxes div container */
-.container {
+.containerOne {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Buttons and game results div container */
+.containerTwo {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Game boxes */
@@ -25,11 +32,12 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 90px;
+    font-size: 65px;
+    font-weight: 900;
     color: rgb(0, 0, 0);
     border: 5px groove rgb(0, 0, 0);
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
 }
 
 /* Game boxes hover style */
@@ -38,14 +46,14 @@ h1 {
 }
 
 /* Display message when a player wins the game */
-.winner {
+.results {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: rgb(5,190,17);
     font-size: 22px;
     font-weight: 600;
     margin: 12px 0px;
+    padding: 12px 0px;
 }
 
 /* Div created in the script to help position the winner message */
@@ -53,4 +61,42 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Div created in the script to help position the no winner (draw) message */
+.drawMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Buttons to start/restart the game */
+.start, .restart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px groove rgb(0, 0, 0);
+    background-color: rgb(255,255,255);
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    width: 140px;
+    height: 35px;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-left: 15px;
+    margin-right: 15px;
+    font-weight: 600;
+}
+
+/* Styles for the buttons upon hover */
+.start:hover, .restart:hover {
+    color: rgb(0, 0, 0);
+    background-color: rgb(226, 232, 240);
+    font-weight: 600;
+}
+
+/* Styling for the buttons container */
+.buttons {
+    display: flex;
+    margin: 0 auto;
 }
