@@ -13,14 +13,11 @@ const theGame = (() => {
     }
 
     // Create player instances
-    const playerOne = player('Player 1', 'X');
-    const playerTwo = player('Player 2', 'O');
+    let playerOne;
+    let playerTwo;
 
-    // Players object
-    const players = { playerOne, playerTwo };
-
-    // Set current player to player one at the start of each game
-    let currentPlayer = players.playerOne;
+    // Create player to represent the current player
+    let currentPlayer;
 
     // Function to determine if a player has won
     function declareWinner(currentPlayer) {
@@ -63,10 +60,10 @@ const theGame = (() => {
     // Function to initiate the game
     function gameBoard() {
 
-        // Reset the game's state
+        // Reset the game's state at the start of each round
         board.fill(null);
         gameOver = false;
-        currentPlayer = players.playerOne;
+        currentPlayer = playerOne;
         const results = document.querySelector('.results');
         results.innerHTML = '';
 
@@ -90,8 +87,6 @@ const theGame = (() => {
 
                 // declareWinner function call for when a player object is returned, indicating there is a winner
                 let isWinner = declareWinner(currentPlayer);
-                // Reference to results div
-                const results = document.querySelector('.results');
 
                 // If players wins, display winner message and exit loop
                 if (isWinner) {
@@ -118,10 +113,10 @@ const theGame = (() => {
                 }
 
                 // Switch current player after their turn is taken
-                if (currentPlayer === players.playerOne) {
-                    currentPlayer = players.playerTwo;
+                if (currentPlayer === playerOne) {
+                    currentPlayer = playerTwo;
                 } else {
-                    currentPlayer = players.playerOne;
+                    currentPlayer = playerOne;
                 }
             });
         });
@@ -133,8 +128,16 @@ const theGame = (() => {
         let startButton = document.querySelector('.start');
         // Call gameBoard function to initiate event listeners
         startButton.addEventListener('click', () => {
+            let firstPlayerName = prompt('Please enter your name: ', 'Player 1') || 'Player 1';
+            let secondPlayerName = prompt('Please enter your name: ', 'Player 2') || 'Player 2';
+
+            // Assign player instances
+            playerOne = player(firstPlayerName, 'X');
+            playerTwo = player(secondPlayerName, 'O');
+
             gameBoard();
         });
+
         // Reference to the restart button
         let restartButton = document.querySelector('.restart')
         // Call gameBoard function to initiate event listeners;
