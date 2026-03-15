@@ -53,7 +53,7 @@ const theGame = (() => {
                 && board[c] === currentPlayer.move) {
                 winner = true;
                 break;
-            } 
+            }
         }
 
         // If winner, return currentPlayer object. Otherwise, return false
@@ -62,70 +62,86 @@ const theGame = (() => {
 
     // Function to initiate the game
     function gameBoard() {
-        // If a player has won, exit the function
-        if (gameOver) return;
 
-        document.addEventListener('DOMContentLoaded', function () {
+        // Reset the game's state
+        board.fill(null);
+        gameOver = false;
+        currentPlayer = players.playerOne;
+        const results = document.querySelector('.results');
+        results.innerHTML = '';
 
-            // Reference to gameboard box divs
-            const boxes = document.querySelectorAll('.boxes');
+        // Reference to gameboard box divs
+        const boxes = document.querySelectorAll('.boxes');
 
-            // Display array elements 
-            boxes.forEach((box, index) => {
-                box.addEventListener('click', () => {
-                    // If a player has won, exit the function
-                    if (gameOver) return;
+        // Display array elements 
+        boxes.forEach((box, index) => {
+            box.innerHTML = '';
 
-                    // If box already has text, exit current iteration of the loop
-                    if (board[index] !== null) return;
+            box.addEventListener('click', () => {
+                // If a player has won, exit the function
+                if (gameOver) return;
+                // If box already has text, exit current iteration of the loop
+                if (board[index] !== null) return;
 
-                    // Upon click, assign current player's move to the board array
-                    board[index] = currentPlayer.move;
-                    // Fill the box with the current player's move: X or O
-                    box.innerHTML = currentPlayer.move;
+                // Upon click, assign current player's move to the board array
+                board[index] = currentPlayer.move;
+                // Fill the box with the current player's move: X or O
+                box.innerHTML = currentPlayer.move;
 
-                    // declareWinner function call for when a player object is returned, indicating there is a winner
-                    let isWinner = declareWinner(currentPlayer);
-                    // Reference to results div
-                    const results = document.querySelector('.results'); 
+                // declareWinner function call for when a player object is returned, indicating there is a winner
+                let isWinner = declareWinner(currentPlayer);
+                // Reference to results div
+                const results = document.querySelector('.results');
 
-                    // If players wins, display winner message and exit loop
-                    if (isWinner) {
-                        let winMessage = document.createElement('div');
-                        winMessage.classList.add('winMessage');
-                        winMessage.innerHTML = `${currentPlayer.name} wins!`;
-                        winMessage.style.color = 'rgb(5,190,17)';
-                        results.innerHTML = '';
-                        results.appendChild(winMessage);
-                        gameOver = true;
-                        return;
-                    }
+                // If players wins, display winner message and exit loop
+                if (isWinner) {
+                    let winMessage = document.createElement('div');
+                    winMessage.classList.add('winMessage');
+                    winMessage.innerHTML = `${currentPlayer.name} wins!`;
+                    winMessage.style.color = 'rgb(5,190,17)';
+                    results.innerHTML = '';
+                    results.appendChild(winMessage);
+                    gameOver = true;
+                    return;
+                }
 
-                    // If no player wins, declare the current game a draw
-                    if (board.every(box => box !== null) && !isWinner) {
-                        let drawMessage = document.createElement('div');
-                        drawMessage.classList.add('drawMessage');
-                        drawMessage.innerHTML = `It's a draw.`;
-                        drawMessage.style.color = 'rgb(233,7,15)';
-                        results.innerHTML = '';
-                        results.appendChild(drawMessage);
-                        gameOver = true;
-                        return;
-                    }
+                // If no player wins, declare the current game a draw
+                if (board.every(box => box !== null) && !isWinner) {
+                    let drawMessage = document.createElement('div');
+                    drawMessage.classList.add('drawMessage');
+                    drawMessage.innerHTML = `It's a draw.`;
+                    drawMessage.style.color = 'rgb(233,7,15)';
+                    results.innerHTML = '';
+                    results.appendChild(drawMessage);
+                    gameOver = true;
+                    return;
+                }
 
-                    // Switch current player after their turn is taken
-                    if (currentPlayer === players.playerOne) {
-                        currentPlayer = players.playerTwo;
-                    } else {
-                        currentPlayer = players.playerOne;
-                    }
-                });
+                // Switch current player after their turn is taken
+                if (currentPlayer === players.playerOne) {
+                    currentPlayer = players.playerTwo;
+                } else {
+                    currentPlayer = players.playerOne;
+                }
             });
         });
     }
 
-    // Call gameBoard function to initiate event listeners
-    gameBoard();
+    // Call the gameBoard function when the buttons have been clicked
+    document.addEventListener('DOMContentLoaded', function () {
+        // Reference to the start button
+        let startButton = document.querySelector('.start');
+        // Call gameBoard function to initiate event listeners
+        startButton.addEventListener('click', () => {
+            gameBoard();
+        });
+        // Reference to the restart button
+        let restartButton = document.querySelector('.restart')
+        // Call gameBoard function to initiate event listeners;
+        restartButton.addEventListener('click', () => {
+            gameBoard();
+        });
+    });
 
     // Return game/player objects
     return { board, players };
